@@ -1,8 +1,9 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import GameBoard from "./components/GameBoard/GameBoard";
 
 import "./styles/_reset.scss";
+import "./App.scss";
 
 function App() {
   const [gameStarted, setGameStarted] = useState<boolean>(false);
@@ -12,18 +13,19 @@ function App() {
   };
 
   return (
-    <div className="app">
-      <div className="app__container">
-        <div className="app__content">
-          <div className="gamefield">
+    <div className="App">
+      <div className="container">
+        <div className="tic-tac-toe">
+          {gameStarted ? (
+            <GameBoard />
+          ) : (
             <button
               onClick={handleStartGame}
-              className="gamefield__start-button"
+              className="tic-tac-toe__start-button"
             >
               Start the game
             </button>
-            {gameStarted ? <GameBoard /> : <div>123</div>}
-          </div>
+          )}
         </div>
       </div>
     </div>

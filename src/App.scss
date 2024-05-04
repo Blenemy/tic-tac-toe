@@ -1,0 +1,18 @@
+.App {
+  height: 100vh;
+}
+
+.container {
+  height: 100%;
+}
+
+.tic-tac-toe {
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  height: 100%;
+
+  &__start-button {
+    align-self: center;
+  }
+}
