@@ -2,6 +2,7 @@ $crossHeight: 75px;
 $crossWidth: 2px;
 
 .gamefield {
+  position: relative;
   border-right: 1px solid black;
   border-bottom: 1px solid black;
 
@@ -35,5 +36,27 @@ $crossWidth: 2px;
 
   &::before {
     transform: translate(-50%, -50%) rotate(45deg);
+  }
+}
+
+.active-gamefield-circle {
+  &::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    border: 2px solid blueviolet;
+    transform-origin: center;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.active-gamefield-transparent {
+  &::before,
+  &::after {
+    opacity: 0.5;
   }
 }
