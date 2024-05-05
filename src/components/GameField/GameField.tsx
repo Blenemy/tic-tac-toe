@@ -1,11 +1,12 @@
 import cn from "classnames";
 
 import "./GameField.scss";
+import { FieldCell } from "../../types/FieldCell";
 
 interface IGameFieldProps {
   onCellClick: (i: number) => void;
   index: number;
-  cellState: boolean;
+  cellState: FieldCell;
 }
 
 const GameField: React.FC<IGameFieldProps> = ({
@@ -13,11 +14,24 @@ const GameField: React.FC<IGameFieldProps> = ({
   index,
   cellState,
 }) => {
+  if (cellState.moveCount === 0) {
+    return (
+      <div
+        onClick={() => onCellClick(index)}
+        className="gameboard__gamefield gamefield"
+      ></div>
+    );
+  }
+
   return (
     <div
       onClick={() => onCellClick(index)}
       className={cn("gameboard__gamefield gamefield", {
-        "active-gamefield-cross": cellState,
+        "active-gamefield-cross":
+          cellState.isSelected && cellState.playedBy === "Player",
+        "active-gamefield-circle":
+          cellState.isSelected && cellState.playedBy === "AI",
+        "active-gamefield-transparent": cellState.moveCount === 1,
       })}
     ></div>
   );
