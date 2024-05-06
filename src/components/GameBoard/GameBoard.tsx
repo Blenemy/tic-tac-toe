@@ -19,7 +19,7 @@ const GameBoard = () => {
   const [gameFields, setGameFields] = useState<FieldCell[]>([]);
 
   useEffect(() => {
-    const newArray: FieldCell[] = Array(NUMBER_OF_FIELDS)
+    const startingCellsToPlay: FieldCell[] = Array(NUMBER_OF_FIELDS)
       .fill(false)
       .map((_, index) => {
         return {
@@ -28,15 +28,11 @@ const GameBoard = () => {
         };
       });
 
-    setGameFields(newArray);
+    setGameFields(startingCellsToPlay);
   }, []);
 
-  const handleCellClick = (i: number) => {
-    if (gameFields[i].isSelected) {
-      return;
-    }
-
-    const playerMove = gameFields.map((cell, index) => {
+  const handlePlayerMove = (i: number) => {
+    const cellsAfterPlayersMove = gameFields.map((cell, index) => {
       if (index === i) {
         return {
           ...cell,
@@ -44,23 +40,32 @@ const GameBoard = () => {
           playedBy: "Player" as PlayedBy,
           moveCount: 3,
         };
-      } else if (cell.moveCount === 1) {
+      }
+
+      if (cell.moveCount === 1) {
         return { ...INITIAL_CELL, id: cell.id };
-      } else if (cell.moveCount > 0) {
+      }
+
+      if (cell.moveCount > 0) {
         return { ...cell, moveCount: cell.moveCount - 1 };
       }
+
       return cell;
     });
 
-    const emptyCells = playerMove.filter((cell) => !cell.isSelected);
+    return cellsAfterPlayersMove;
+  };
+
+  const handleAIMove = (arrayAfterPlayMove: FieldCell[]) => {
+    const emptyCells = arrayAfterPlayMove.filter((cell) => !cell.isSelected);
     const AIMove = generateRandomEmptyCell(emptyCells);
 
     if (!AIMove) {
-      setGameFields(playerMove);
+      setGameFields(arrayAfterPlayMove);
       return;
     }
 
-    const finallArray: FieldCell[] = playerMove.map((cell, index) => {
+    const finallArray: FieldCell[] = arrayAfterPlayMove.map((cell, index) => {
       if (AIMove.id === index) {
         return {
           isSelected: true,
@@ -74,6 +79,15 @@ const GameBoard = () => {
     });
 
     setGameFields(finallArray);
+  };
+
+  const handleCellClick = (i: number) => {
+    if (gameFields[i].isSelected) {
+      return;
+    }
+
+    const playerMove = handlePlayerMove(i);
+    handleAIMove(playerMove);
   };
 
   return (
