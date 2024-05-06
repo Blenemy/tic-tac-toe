@@ -1,11 +1,14 @@
 import { FieldCell } from "../types/FieldCell";
 
-function generateRandomEmptyCell(arrayOfEmptyCells: FieldCell[]) {
-  const minCeiled = Math.ceil(0);
+const STARTING_INDEX = 0;
+
+function generateRandomEmptyCell(arrayOfEmptyCells: FieldCell[]): FieldCell {
+  const minCeiled = Math.ceil(STARTING_INDEX);
   const maxFloored = Math.floor(arrayOfEmptyCells.length);
-  let randomIndex = Math.floor(
+  const randomIndex = Math.floor(
     Math.random() * (maxFloored - minCeiled) + minCeiled
   );
+
   return arrayOfEmptyCells[randomIndex];
 }
 
