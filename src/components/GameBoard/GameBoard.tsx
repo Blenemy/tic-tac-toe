@@ -6,6 +6,7 @@ import { FieldCell, PlayedBy } from "../../types/FieldCell";
 import GameField from "../GameField/GameField";
 
 import "./GameBoard.scss";
+import checkWinCondition from "../../utils/checkWinCondition";
 
 const NUMBER_OF_FIELDS = 9;
 
@@ -60,25 +61,22 @@ const GameBoard = () => {
     const emptyCells = arrayAfterPlayMove.filter((cell) => !cell.isSelected);
     const AIMove = generateRandomEmptyCell(emptyCells);
 
-    if (!AIMove) {
-      setGameFields(arrayAfterPlayMove);
-      return;
-    }
+    const cellsAfterAIMove: FieldCell[] = arrayAfterPlayMove.map(
+      (cell, index) => {
+        if (AIMove.id === index) {
+          return {
+            isSelected: true,
+            playedBy: "AI" as PlayedBy,
+            id: AIMove.id,
+            moveCount: 3,
+          };
+        }
 
-    const finallArray: FieldCell[] = arrayAfterPlayMove.map((cell, index) => {
-      if (AIMove.id === index) {
-        return {
-          isSelected: true,
-          playedBy: "AI" as PlayedBy,
-          id: AIMove.id,
-          moveCount: 3,
-        };
+        return cell;
       }
+    );
 
-      return cell;
-    });
-
-    setGameFields(finallArray);
+    return cellsAfterAIMove;
   };
 
   const handleCellClick = (i: number) => {
@@ -87,7 +85,24 @@ const GameBoard = () => {
     }
 
     const playerMove = handlePlayerMove(i);
-    handleAIMove(playerMove);
+    const playerWon = checkWinCondition(playerMove, "Player");
+
+    if (playerWon) {
+      setGameFields(playerMove);
+      console.log("Player won");
+      return;
+    }
+
+    const aiMove = handleAIMove(playerMove);
+    const aiWon = checkWinCondition(aiMove, "AI");
+
+    if (aiWon) {
+      setGameFields(aiMove);
+      console.log("AI won");
+      return;
+    } else {
+      setGameFields(aiMove);
+    }
   };
 
   return (
