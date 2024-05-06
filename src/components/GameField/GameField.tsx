@@ -27,10 +27,8 @@ const GameField: React.FC<IGameFieldProps> = ({
     <div
       onClick={() => onCellClick(index)}
       className={cn("gameboard__gamefield gamefield", {
-        "active-gamefield-cross":
-          cellState.isSelected && cellState.playedBy === "Player",
-        "active-gamefield-circle":
-          cellState.isSelected && cellState.playedBy === "AI",
+        "active-gamefield-cross": cellState.playedBy === "Player",
+        "active-gamefield-circle": cellState.playedBy === "AI",
         "active-gamefield-transparent": cellState.moveCount === 1,
       })}
     ></div>
