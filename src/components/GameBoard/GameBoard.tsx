@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 
 import generateRandomEmptyCell from "../../utils/generateRandomEmptyCell";
 import { FieldCell, PlayedBy } from "../../types/FieldCell";
+import checkWinCondition from "../../utils/checkWinCondition";
 
 import GameField from "../GameField/GameField";
 
 import "./GameBoard.scss";
-import checkWinCondition from "../../utils/checkWinCondition";
 
 const NUMBER_OF_FIELDS = 9;
 
@@ -89,7 +89,6 @@ const GameBoard = () => {
 
     if (playerWon) {
       setGameFields(playerMove);
-      console.log("Player won");
       return;
     }
 
@@ -98,7 +97,6 @@ const GameBoard = () => {
 
     if (aiWon) {
       setGameFields(aiMove);
-      console.log("AI won");
       return;
     } else {
       setGameFields(aiMove);
