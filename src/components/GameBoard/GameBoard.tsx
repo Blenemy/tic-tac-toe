@@ -57,11 +57,11 @@ const GameBoard = () => {
     return cellsAfterPlayersMove;
   };
 
-  const handleAIMove = (arrayAfterPlayMove: FieldCell[]) => {
-    const emptyCells = arrayAfterPlayMove.filter((cell) => !cell.isSelected);
+  const handleAIMove = (arrayAfterPlayerMove: FieldCell[]) => {
+    const emptyCells = arrayAfterPlayerMove.filter((cell) => !cell.isSelected);
     const AIMove = generateRandomEmptyCell(emptyCells);
 
-    const cellsAfterAIMove: FieldCell[] = arrayAfterPlayMove.map(
+    const cellsAfterAIMove: FieldCell[] = arrayAfterPlayerMove.map(
       (cell, index) => {
         if (AIMove.id === index) {
           return {
