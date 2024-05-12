@@ -1,7 +1,8 @@
 import cn from "classnames";
 
-import "./GameField.scss";
 import { FieldCell } from "../../types/FieldCell";
+
+import "./GameField.scss";
 
 interface IGameFieldProps {
   onCellClick: (i: number) => void;
